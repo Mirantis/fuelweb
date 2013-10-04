@@ -16,7 +16,7 @@
 
 
 from sqlalchemy import exc
-import unittest2
+import unittest
 
 from nailgun.db import db, load_db_driver
 from nailgun.api import models
@@ -24,7 +24,7 @@ from nailgun.errors import errors, NailgunException
 import web
 
 
-class TestLoadDBDriverHandler(unittest2.TestCase):
+class TestLoadDBDriverHandler(unittest.TestCase):
 
     def test_session_invalid_request_error(self):
         """Test verifies reason why load_db_driver
@@ -81,7 +81,7 @@ class TestLoadDBDriverHandler(unittest2.TestCase):
             db().add(models.Role())
             raise web.HTTPError(400)
 
-        self.assertRaises(exc.InvalidRequestError,
+        self.assertRaises(web.HTTPError,
                           load_db_driver, handler_sample)
 
     def tearDown(self):
