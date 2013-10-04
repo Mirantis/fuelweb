@@ -95,6 +95,7 @@ function(require, utils, models, simpleMessageTemplate, createClusterWizardTempl
     var clusterWizardPanes = {};
 
     views.CreateClusterWizard = views.Dialog.extend({
+        className: 'modal fade create-cluster-modal',
         template: _.template(createClusterWizardTemplate),
         templateHelpers: _.pick(utils, 'floor'),
         events: {
