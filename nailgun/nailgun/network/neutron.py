@@ -18,6 +18,7 @@ from netaddr import IPNetwork
 from netaddr import IPRange
 from netaddr import IPSet
 
+from nailgun.api.models import AttributesGenerators
 from nailgun.api.models import Cluster
 from nailgun.api.models import GlobalParameters
 from nailgun.api.models import IPAddrRange
@@ -39,7 +40,10 @@ class NeutronManager(NetworkManager):
             predefined_networks=self._generate_predefined_networks(cluster),
             L2=self._generate_l2(cluster),
             L3=self._generate_l3(cluster),
-            segmentation_type=cluster.net_segment_type
+            segmentation_type=cluster.net_segment_type,
+            nova_metadata={
+                "metadata_proxy_shared_secret": AttributesGenerators.password()
+            }
         )
         db().add(neutron_config)
         db().flush()

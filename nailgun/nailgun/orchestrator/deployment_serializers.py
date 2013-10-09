@@ -578,6 +578,7 @@ class NeutronMethods(object):
         """
         attrs = {}
         neutron_config = cluster.neutron_config
+        attrs['metadata'] = neutron_config.nova_metadata
         attrs['L3'] = neutron_config.L3 or {
             'use_namespaces': True
         }
