@@ -430,7 +430,47 @@ class Environment(object):
                     "assign": False,
                     "assign_vip": False
                 }
-            ]
+            ],
+            "neutron": {
+                "networks": [
+                    {
+                        "name": "public",
+                        "pool": ["172.16.0.0/12"]
+                    },
+                    {
+                        "name": "management",
+                        "pool": ["192.168.0.0/16"]
+                    },
+                    {
+                        "name": "storage",
+                        "pool": ["192.168.0.0/16"]
+                    }
+                ],
+                "config": {
+                    "parameters": {
+                        "amqp": {
+                            "provider": "rabbitmq",
+                            "username": None,
+                            "passwd": "",
+                            "hosts": "hostname1:5672, hostname2:5672"
+                        },
+                        "database": {
+                            "provider": "mysql",
+                            "port": "3306",
+                            "database": None,
+                            "username": None,
+                            "passwd":   ""
+                        },
+                        "keystone": {
+                            "admin_user": None,
+                            "admin_password": ""
+                        },
+                        "metadata": {
+                            "metadata_proxy_shared_secret": ""
+                        }
+                    }
+                }
+            }
         }
 
     def get_default_attributes_metadata(self):
