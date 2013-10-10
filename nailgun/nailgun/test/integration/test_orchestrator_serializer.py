@@ -21,13 +21,13 @@ from nailgun.api.models import NetworkGroup
 from nailgun.api.models import Node
 from nailgun.db import db
 from nailgun.orchestrator.deployment_serializers \
-    import NovaOrchestratorHASerializer
-from nailgun.orchestrator.deployment_serializers \
-    import NovaOrchestratorSerializer
+    import NeutronOrchestratorHASerializer
 from nailgun.orchestrator.deployment_serializers \
     import NeutronOrchestratorSerializer
 from nailgun.orchestrator.deployment_serializers \
-    import NeutronOrchestratorHASerializer
+    import NovaOrchestratorHASerializer
+from nailgun.orchestrator.deployment_serializers \
+    import NovaOrchestratorSerializer
 from nailgun.settings import settings
 from nailgun.test.base import BaseIntegrationTest
 
@@ -585,8 +585,10 @@ class TestNeutronOrchestratorSerializer(OrchestratorSerializerTestBase):
                   ['172.16.0.10', '172.16.0.12']]
 
         floating_network_group = self.db.query(NetworkGroup).filter(
-            NetworkGroup.name == 'floating').filter(
-            NetworkGroup.cluster_id == self.cluster.id).first()
+            NetworkGroup.name == 'floating'
+        ).filter(
+            NetworkGroup.cluster_id == self.cluster.id
+        ).first()
 
         # Remove floating ip addr ranges
         self.db.query(IPAddrRange).filter(

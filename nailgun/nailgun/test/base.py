@@ -459,7 +459,7 @@ class Environment(object):
                             "port": "3306",
                             "database": None,
                             "username": None,
-                            "passwd":   ""
+                            "passwd": ""
                         },
                         "keystone": {
                             "admin_user": None,

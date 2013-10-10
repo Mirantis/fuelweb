@@ -28,8 +28,8 @@ from nailgun.api.handlers.base import JSONHandler
 from nailgun.api.handlers.tasks import TaskHandler
 from nailgun.api.models import Cluster
 from nailgun.api.models import NetworkConfiguration
-from nailgun.api.models import NeutronNetworkConfiguration
 from nailgun.api.models import NetworkGroup
+from nailgun.api.models import NeutronNetworkConfiguration
 from nailgun.api.models import Task
 
 from nailgun.api.serializers.network_configuration \
@@ -180,5 +180,6 @@ class NeutronNetworkConfigurationHandler(JSONHandler):
         return self.serializer.serialize_for_cluster(cluster)
 
 
-class NeutronNetworkConfigurationVerifyHandler(JSONHandler):
-    pass
+class NeutronNetworkConfigurationVerifyHandler(
+        NovaNetworkConfigurationVerifyHandler):
+    validator = NeutronNetworkConfigurationValidator

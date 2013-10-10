@@ -222,10 +222,8 @@ class NeutronManager(NetworkManager):
             private_network_group = NetworkGroup(
                 release=cluster_db.release.id,
                 name="private",
-                cidr="none",
-                netmask="none",
-                gateway="none",
                 cluster_id=cluster_id,
+                netmask='32',
                 vlan_start=0,
                 amount=1
             )
