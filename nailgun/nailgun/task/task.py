@@ -400,6 +400,9 @@ class CheckNetworksTask(object):
 
     @classmethod
     def execute(self, task, data, check_admin_untagged=False):
+        if task.cluster.net_provider == 'neutron':
+            return
+
         # If not set in data then fetch from db
         if 'net_manager' in data:
             netmanager = data['net_manager']

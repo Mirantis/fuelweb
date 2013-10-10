@@ -160,24 +160,34 @@ class NeutronNetworkConfigurationHandler(JSONHandler):
         data = json.loads(web.data())
         cluster = self.get_object_or_404(Cluster, cluster_id)
 
-        # TODO(enchantner) check task
+        task_manager = CheckNetworksTaskManager(cluster_id=cluster.id)
+        task = task_manager.execute(data)
 
-        try:
-            if 'networks' in data:
-                self.validator.validate_networks_update(
-                    json.dumps(data)
-                )
+        if task.status != 'error':
 
-            if 'neutron_parameters' in data:
-                self.validator.validate_neutron_params(
-                    json.dumps(data)
-                )
+            try:
+                if 'networks' in data:
+                    self.validator.validate_networks_update(
+                        json.dumps(data)
+                    )
 
-            NeutronNetworkConfiguration.update(cluster, data)
-        except Exception:
-            logger.error(traceback.format_exc())
+                if 'neutron_parameters' in data:
+                    self.validator.validate_neutron_params(
+                        json.dumps(data)
+                    )
 
-        return self.serializer.serialize_for_cluster(cluster)
+                NeutronNetworkConfiguration.update(cluster, data)
+            except Exception as exc:
+                TaskHelper.set_error(task.uuid, exc)
+                logger.error(traceback.format_exc())
+
+            #return self.serializer.serialize_for_cluster(cluster)
+        data = build_json_response(TaskHandler.render(task))
+        if task.status == 'error':
+            db().rollback()
+        else:
+            db().commit()
+        raise web.accepted(data=data)
 
 
 class NeutronNetworkConfigurationVerifyHandler(
