@@ -28,6 +28,7 @@ from nailgun.api.handlers.base import JSONHandler
 from nailgun.api.handlers.tasks import TaskHandler
 from nailgun.api.models import Cluster
 from nailgun.api.models import NetworkConfiguration
+from nailgun.api.models import NeutronNetworkConfiguration
 from nailgun.api.models import NetworkGroup
 from nailgun.api.models import Task
 
@@ -172,7 +173,7 @@ class NeutronNetworkConfigurationHandler(JSONHandler):
                     json.dumps(data)
                 )
 
-            NetworkConfiguration.update(cluster, data)
+            NeutronNetworkConfiguration.update(cluster, data)
         except Exception:
             logger.error(traceback.format_exc())
 
