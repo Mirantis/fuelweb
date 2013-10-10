@@ -583,7 +583,7 @@ class NetworkConfiguration(object):
 
                 for key, value in ng.iteritems():
                     if key == "ip_ranges":
-                        cls.__set_ip_ranges(ng['id'], value)
+                        cls._set_ip_ranges(ng['id'], value)
                     else:
                         if key == 'cidr' and \
                                 not ng['name'] in ('public', 'floating'):
@@ -596,7 +596,7 @@ class NetworkConfiguration(object):
                 ng_db.cluster.add_pending_changes('networks')
 
     @classmethod
-    def __set_ip_ranges(cls, network_group_id, ip_ranges):
+    def _set_ip_ranges(cls, network_group_id, ip_ranges):
         # deleting old ip ranges
         db().query(IPAddrRange).filter_by(
             network_group_id=network_group_id).delete()
@@ -621,20 +621,22 @@ class NeutronNetworkConfiguration(NetworkConfiguration):
 
                 for key, value in ng.iteritems():
                     if key == "ip_ranges":
-                        cls.__set_ip_ranges(ng['id'], value)
+                        cls._set_ip_ranges(ng['id'], value)
                     else:
                         if key == 'cidr' and \
-                                not ng['name'] in ('public', 'floating'):
+                                not ng['name'] in ('public', 'private'):
                             network_manager.update_ranges_from_cidr(
                                 ng_db, value)
 
                         setattr(ng_db, key, value)
 
-                network_manager.create_networks(ng_db)
+                if ng['name'] != 'private':
+                    network_manager.create_networks(ng_db)
                 ng_db.cluster.add_pending_changes('networks')
 
         if 'neutron_parameters' in network_configuration:
-            for key, value in network_configuration['neutron_parameters']:
+            for key, value in network_configuration['neutron_parameters'] \
+                    .items():
                 setattr(cluster.neutron_config, key, value)
             db().add(cluster.neutron_config)
             db().commit()
