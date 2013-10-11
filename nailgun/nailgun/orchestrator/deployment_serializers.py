@@ -621,11 +621,12 @@ class NeutronMethods(object):
             net_conf["L3"]["floating"] = join_range(
                 net_conf["L3"]["floating"]
             )
+            enable_dhcp = False if net == "net04_ext" else True
+            net_conf['L3']['enable_dhcp'] = enable_dhcp
 
             net_conf["L2"] = nets_l2_configs[net]
-
-            if net == "net04_ext":
-                net_conf["shared"] = False
+            net_conf['tenant'] = 'admin'
+            net_conf["shared"] = False
 
             attrs['predefined_networks'][net] = net_conf
 
