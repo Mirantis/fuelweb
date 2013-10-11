@@ -655,6 +655,9 @@ class CheckNetworksTask(object):
         if task.cluster.net_segment_type == 'vlan':
             tagged_nets = [n for n in filter(
                 lambda n: (n["vlan_start"] is not None), networks)]
+        else:
+            tagged_nets = []
+
         if tagged_nets:
             if 'neutron_parameters' in data:
                 l2cfg = data['neutron_parameters']['L2']
@@ -668,7 +671,6 @@ class CheckNetworksTask(object):
                 err_msg = u"Wrong VLAN range.\n"
                 raise errors.NetworkCheckError(err_msg, add_client=False)
 
-            print range
             for net in tagged_nets:
                 print net["vlan_start"]
             net_intersect = [net["name"] for net in tagged_nets

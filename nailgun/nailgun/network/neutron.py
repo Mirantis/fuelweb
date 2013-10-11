@@ -62,9 +62,8 @@ class NeutronManager(NetworkManager):
                 "cidr": public_cidr,
                 "gateway": public_gw,
                 "nameservers": [],
-                "public": True,
                 "floating": [
-                    str(net[len(net) / 2]),
+                    str(net[len(net) / 2 + 2]),
                     str(net[-2])
                 ]
             }
@@ -79,7 +78,6 @@ class NeutronManager(NetworkManager):
                     "8.8.4.4",
                     "8.8.8.8"
                 ],
-                "public": False,
                 "floating": []
             }
         }
