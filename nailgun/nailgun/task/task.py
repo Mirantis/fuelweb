@@ -568,8 +568,8 @@ class CheckNetworksTask(object):
             err_msg = u"Some networks are " \
                       "assigned to the same physical interface as " \
                       "admin (PXE) network. You should move them to " \
-                      "another physical interfaces:\n{0}".format("\n".join(
-                nodes_with_errors))
+                      "another physical interfaces:\n{0}".\
+                format("\n".join(nodes_with_errors))
             raise errors.NetworkCheckError(err_msg, add_client=False)
 
         # checking if there any networks
@@ -584,7 +584,8 @@ class CheckNetworksTask(object):
                             private_interfaces.append(iface)
             found_intersection = []
 
-            all_roles = set(n["id"] for n in networks if n["name"] != 'private')
+            all_roles = set(n["id"] for n in networks
+                            if n["name"] != 'private')
             for iface in private_interfaces:
                 nets = dict(
                     (n.id, n.name)
@@ -606,8 +607,8 @@ class CheckNetworksTask(object):
                 err_msg = u"Some networks are " \
                           "assigned to the same physical interface as " \
                           "private network. You should move them to " \
-                          "another physical interfaces:\n{0}".format("\n".join(
-                    nodes_with_errors))
+                          "another physical interfaces:\n{0}".\
+                    format("\n".join(nodes_with_errors))
                 raise errors.NetworkCheckError(err_msg, add_client=False)
 
         admin_ng = NetworkManager().get_admin_network_group()

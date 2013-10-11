@@ -205,8 +205,9 @@ class TestNovaOrchestratorSerializer(OrchestratorSerializerTestBase):
                   ['172.16.0.10', '172.16.0.12']]
 
         floating_network_group = self.db.query(NetworkGroup).filter(
-            NetworkGroup.name == 'floating').filter(
-                NetworkGroup.cluster_id == self.cluster.id).first()
+            NetworkGroup.name == 'floating'
+        ).filter(
+            NetworkGroup.cluster_id == self.cluster.id).first()
 
         # Remove floating ip addr ranges
         self.db.query(IPAddrRange).filter(
